@@ -1,7 +1,10 @@
 import re
 import random
+import os
 
-file = open("brown/dataset/cj57","r") 
+allfiles = os.listdir("brown/dataset")
+
+file = open("brown/dataset/" + random.choice(allfiles), "r") 
 
 frases = []
 tiposFrase = []
@@ -36,6 +39,14 @@ tipoFraseSelection =  random.choice(tiposFrase)
 fraseFinal = []
 
 for tipo in tipoFraseSelection:
-    fraseFinal.append(random.sample(words[tipo], 1)[0])
+    word = random.sample(words[tipo], 1)[0].strip()
+    
+    if(word == "``" or word == "\"\"" or word == "''"):
+        continue
 
-print(" ".join(fraseFinal))
+    if(tipo != "." and tipo != "," and tipo != ":"):
+        word = " " + word
+
+    fraseFinal.append(word)
+
+print("".join(i.capitalize() for i in "".join(fraseFinal).strip().split(". ")))
